@@ -16,7 +16,16 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["mcp", "delegate", "glm", "zai", "kimi", "moonshot", "opencode", "multi-llm"]
+      "keywords": [
+        "mcp",
+        "delegate",
+        "glm",
+        "zai",
+        "kimi",
+        "moonshot",
+        "opencode",
+        "multi-llm"
+      ]
     },
     {
       "name": "e2e-explorer",
@@ -26,7 +35,14 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["playwright", "e2e", "exploratory-testing", "qa", "agents", "mcp"]
+      "keywords": [
+        "playwright",
+        "e2e",
+        "exploratory-testing",
+        "qa",
+        "agents",
+        "mcp"
+      ]
     },
     {
       "name": "code-refactor",
@@ -36,7 +52,13 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["refactoring", "code-quality", "simplify", "verbosity", "clean-code"]
+      "keywords": [
+        "refactoring",
+        "code-quality",
+        "simplify",
+        "verbosity",
+        "clean-code"
+      ]
     },
     {
       "name": "review-panel",
@@ -46,7 +68,14 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["code-review", "multi-llm", "second-opinion", "glm", "kimi", "quality"]
+      "keywords": [
+        "code-review",
+        "multi-llm",
+        "second-opinion",
+        "glm",
+        "kimi",
+        "quality"
+      ]
     },
     {
       "name": "bug-fixer",
@@ -56,7 +85,13 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["bugfix", "debugging", "qa", "e2e", "verification"]
+      "keywords": [
+        "bugfix",
+        "debugging",
+        "qa",
+        "e2e",
+        "verification"
+      ]
     },
     {
       "name": "repo-cleanup",
@@ -66,7 +101,14 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["cleanup", "hygiene", "branches", "stash", "hooks", "gitignore"]
+      "keywords": [
+        "cleanup",
+        "hygiene",
+        "branches",
+        "stash",
+        "hooks",
+        "gitignore"
+      ]
     },
     {
       "name": "marathon",
@@ -76,17 +118,31 @@
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["autonomous", "long-running", "loop", "unattended", "hooks", "batch"]
+      "keywords": [
+        "autonomous",
+        "long-running",
+        "loop",
+        "unattended",
+        "hooks",
+        "batch"
+      ]
     },
     {
       "name": "rigor",
       "source": "./plugins/rigor",
-      "description": "Frontier-Arbeitsdisziplin als Skill: Beweis vor Behauptung, Fakten nachschlagen statt erinnern, Denkaufwand-Triage, Zustand in Dateien, Parallelisierung, Autonomie-Kalibrierung, ehrliches Berichten — plus /rigor:check als Selbst-Audit.",
-      "version": "0.1.0",
+      "description": "Frontier-Arbeitsdisziplin, automatisch aktiv: SessionStart-Hook injiziert die 7 Disziplinen (Beweis vor Behauptung, Fakten nachschlagen, Denkaufwand-Triage, ehrliches Berichten u.a.) in jede Session; Skill liefert die ausführlichen Regeln, /rigor:check das Selbst-Audit.",
+      "version": "0.2.0",
       "author": {
         "name": "EricVogt93"
       },
-      "keywords": ["rigor", "verification", "workflow", "discipline", "quality", "reasoning"]
+      "keywords": [
+        "rigor",
+        "verification",
+        "workflow",
+        "discipline",
+        "quality",
+        "reasoning"
+      ]
     }
   ]
 }

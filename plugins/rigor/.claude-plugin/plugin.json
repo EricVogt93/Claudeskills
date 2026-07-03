@@ -1,7 +1,7 @@
 {
   "name": "rigor",
-  "description": "Kodifizierte Arbeitsdisziplin für anspruchsvolle Engineering-Tasks: Beweis vor Behauptung, Fakten-Disziplin (nichts aus dem Gedächtnis), adaptiver Denkaufwand per Triage, Zustand in Dateien, Parallelisierung, Autonomie-Kalibrierung und ehrliches Berichten. Überträgt Frontier-Workflow-Gewohnheiten als Verhaltens-Scaffolding auf jedes Modell.",
-  "version": "0.1.0",
+  "description": "Kodifizierte Arbeitsdisziplin für anspruchsvolle Engineering-Tasks: Beweis vor Behauptung, Fakten-Disziplin (nichts aus dem Gedächtnis), adaptiver Denkaufwand per Triage, Zustand in Dateien, Parallelisierung, Autonomie-Kalibrierung und ehrliches Berichten. Ein SessionStart-Hook injiziert die Kurzfassung automatisch in jede Session; der Skill liefert die ausführlichen Regeln bei substanzieller Arbeit.",
+  "version": "0.2.0",
   "author": {
     "name": "EricVogt93"
   },

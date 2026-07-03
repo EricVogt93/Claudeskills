@@ -1,0 +1,16 @@
+{
+  "description": "Rigor: injiziert die Arbeitsdisziplin-Grundregeln bei jedem Sessionstart (auch nach /clear und Kompaktierung) in den Kontext",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-rigor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

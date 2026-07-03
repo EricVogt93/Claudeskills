@@ -21,12 +21,16 @@ Plus **Selbstcheck vor „fertig"** — und `/rigor:check` als rückwirkendes Se
 - ✅ Überträgt: Verifikationsverhalten, Fehlerkultur, Arbeitsorganisation, Umgang mit Unsicherheit. Wirkt bei jedem Modell — auch bei delegierten Implementierern (GLM/Kimi über `llm-delegate`, deren Implementierer-Prompt dieselben Regeln enthält).
 - ❌ Überträgt nicht: rohe Reasoning-Tiefe, Kohärenz über sehr lange Horizonte, die Qualität der Optionen, die einem bei „hart" überhaupt einfallen.
 
+## Automatisch aktiv — zwei Stufen
+
+1. **SessionStart-Hook (immer)**: Injiziert die Kurzfassung der 7 Disziplinen bei **jedem** Sessionstart in den Kontext — auch nach `/clear`, Resume und Kompaktierung. Kein Triggern nötig, gilt ab Installation in jeder Session (~340 Tokens).
+2. **Skill (bei Bedarf)**: Die ausführliche Fassung mit Beweisleiter, Triage-Regeln und Selbstcheck lädt Claude selbst, sobald substanzielle Arbeit ansteht — der Hook erinnert ihn daran.
+
 ## Nutzung
 
 ```bash
 /plugin install rigor@claudeskills
+# → ab sofort automatisch in jeder Session aktiv
 
-# Autonom: triggert bei substanzieller Engineering-Arbeit und vor "fertig"-Meldungen
-# Explizit: „sei gründlich" / „verifizier das"
-/rigor:check    # Selbst-Audit der letzten Antworten
+/rigor:check    # Selbst-Audit der letzten Antworten (Behauptung → Beleg)
 ```
