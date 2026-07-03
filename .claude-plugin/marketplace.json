@@ -113,8 +113,8 @@
     {
       "name": "marathon",
       "source": "./plugins/marathon",
-      "description": "Tagelange autonome Abarbeitung großer, unkomplizierter Projekte ohne stündliches Bestätigen: Task-Liste als dateibasierter Zustand, Stop-Hook-Schleife bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log. Inkl. 'Auto-Compact': Kontext-Watchdog erzwingt bei vollem Kontext eine Handoff-Datei und rotiert per Driver-Skript in eine frische Session.",
-      "version": "0.2.1",
+      "description": "Tagelange, VOLL autonome Abarbeitung großer, unkomplizierter Projekte — null Rückfragen, auch beim Start (AskUserQuestion deaktiviert, alle Festlegungen als dokumentierte Annahmen): Task-Liste als dateibasierter Zustand, Stop-Hook-Schleife bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log. Inkl. Auto-Compact per Kontext-Watchdog + Session-Rotation. Notbremsen: /marathon:stop, STOP-Datei, Iterations-Limit.",
+      "version": "0.3.0",
       "author": {
         "name": "EricVogt93"
       },

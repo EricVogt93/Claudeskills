@@ -4,7 +4,8 @@
 
 ```
 /marathon:start ──▶ Task-Liste (.marathon/tasks.md, hunderte kleine Checkboxen)
-                    + EINMAL alles klären (Branch, Testbefehl, No-Gos, Permissions)
+                    + alles SELBST festgelegt (Branch, Testbefehl, No-Gos)
+                      → dokumentiert als "Annahmen" in log.md — 0 Fragen
                             │
               ┌─────────────▼──────────────┐
               │  Task nehmen → abarbeiten  │
@@ -20,7 +21,7 @@
 ## Warum das über Tage stabil ist
 
 - **Zustand in Dateien, nicht im Chat**: `tasks.md` (Plan + Fortschritt), `state.json` (Schleife), `log.md` (jede Entscheidung). Nach Kompaktierung oder Neustart liest der SessionStart-Hook den Stand ein und Claude macht ohne Rückfrage weiter.
-- **Keine Rückfragen by design**: Alles Klärbare wird beim Start abgefragt; während des Laufs gilt: konservative Option wählen + im Log begründen. Das Log ist dein asynchroner Review.
+- **Null Rückfragen — technisch erzwungen**: Das Frage-Tool (AskUserQuestion) ist während des Marathons per `disallowed-tools` deaktiviert; auch der Start fragt nichts. Alle Festlegungen (Branch, Verifikationsbefehl, No-Gos) trifft das LLM selbst — konservativ — und dokumentiert sie als „Annahmen" im Log. Das Log ist dein asynchroner Review. Nicht durch Annahmen ersetzbare Fragen machen den Task zu BLOCKED, halten aber nie den Lauf an.
 - **Fehler eskalieren nicht**: Verifikation pro Task, 3-Versuche-Regel → `BLOCKED` + weiter, Mini-Review alle ~20 Tasks. Ein kaputter Task hält nicht das Projekt auf und pflanzt sich nicht fort.
 - **Checkpoint-Commits** pro Task: jeder Stand ist wiederherstellbar.
 

@@ -112,7 +112,7 @@ console.log(
       `2. Arbeite ihn vollständig ab, inkl. Verifikation (Tests/Build laut .marathon/log.md-Kopf).\n` +
       `3. Hake ihn in ${taskFile} ab, mach einen Checkpoint-Commit, notiere Entscheidungen/Auffälligkeiten in .marathon/log.md.\n` +
       `4. Schlägt ein Task 3× fehl: als BLOCKED markieren (mit Grund im Log) und zum nächsten.\n` +
-      `Den Nutzer NICHTS fragen — entscheide konservativ und dokumentiere im Log. ` +
+      `Den Nutzer NICHTS fragen — entscheide konservativ und dokumentiere die Annahme im Log; eine nicht durch Annahmen ersetzbare Frage macht den Task zu BLOCKED, hält aber nie den Lauf an. ` +
       `Sind alle Punkte abgehakt oder nur noch BLOCKED übrig: setze "active": false in .marathon/state.json, ` +
       `schreibe den Abschlussbericht ans Ende von .marathon/log.md und beende dann normal. ` +
       `(Manueller Stopp durch den Nutzer: /marathon:stop oder Datei .marathon/STOP anlegen.)`,
