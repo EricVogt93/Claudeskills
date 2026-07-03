@@ -4,6 +4,17 @@ Claude-Code-Plugin inkl. MCP-Server, das Coding-Tasks an **externe LLMs** delegi
 
 **Use Case:** Claude plant → gibt den Plan an GLM-5.2 (oder Kimi/opencode) → das externe Modell implementiert direkt im Repo → Claude verifiziert das Diff.
 
+**Autonome Delegation:** Über den mitgelieferten Skill `delegating-coding-tasks` entscheidet Claude **selbstständig**, ob, wann und an wen er delegiert — kein Slash-Command nötig. Der Skill enthält eine Benchmark-basierte Routing-Matrix:
+
+| Task-Typ | Provider | Warum (Benchmarks 07/2026) |
+|---|---|---|
+| Repo-weite/mehrstufige Implementierungen, Multi-File-Patches, große Kontexte | `glm` | Top-Open-Weight auf SWE-bench Pro (62.1 %), Terminal-Bench 2.1 81.0, FrontierSWE 74.4, 1M Kontext |
+| Tool-intensive iterative Kleinarbeit, kniffliges Debugging | `kimi` | MCP Mark Verified 81.1 (vor Opus 4.8), Thinking immer aktiv, günstige Input-Tokens |
+| Braucht Shell/Tests/Builds beim Implementieren; Drittmodelle (GPT/Gemini via Zen) | `opencode` | Voller lokaler Agent mit Shell; freie Modellwahl |
+| Zweitmeinung/Review ohne Dateiänderung | `glm`/`kimi` im `chat`-Modus | — |
+
+Härteste Einzel-Fixes und die finale Verifikation behält Claude selbst (GLM-5.2 fällt auf SWE-Marathon ~13 % hinter Opus 4.8 zurück). Die Slash-Commands bleiben für explizite Aufrufe erhalten.
+
 ## Provider
 
 Die API-Provider werden über das **offizielle `openai`-SDK** angesprochen — das ist der von Z.ai und Moonshot offiziell dokumentierte Node-Client für ihre APIs (Z.ais eigenes TypeScript-SDK, `z-ai-sdk-typescript`, ist bislang nicht auf npm veröffentlicht; sobald es erscheint, ist der Client-Layer in `mcp/server.js` an einer Stelle austauschbar). Die Defaults zeigen auf die **Coding-Plan-Endpoints** beider Anbieter, sodass die Delegation über die Flatrate-Abos läuft statt Pay-per-Token:
@@ -39,7 +50,11 @@ Benötigt Node.js ≥ 18. Die einzige Abhängigkeit (`openai`-SDK) installiert d
 
 ## Nutzung
 
-### Slash-Command (empfohlen)
+### Autonom per Skill (Default)
+
+Nichts weiter nötig: Sobald das Plugin installiert ist, erkennt Claude über den Skill `delegating-coding-tasks` selbst, wann sich Delegation lohnt (planbare Features, mechanische Großänderungen, parallele Pakete, Zweitmeinungen), wählt den Provider anhand der Routing-Matrix und verifiziert das Ergebnis per `git diff`. Kleine Edits (< ~20 Zeilen), architektur-/sicherheitskritische Entscheidungen und die finale Verifikation macht Claude weiterhin selbst.
+
+### Slash-Command (expliziter Aufruf)
 
 ```
 /llm-delegate:delegate glm  Baue einen REST-Endpoint /health mit Statusprüfung der DB

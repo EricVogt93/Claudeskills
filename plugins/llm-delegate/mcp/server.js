@@ -462,7 +462,7 @@ const TOOLS = [
   {
     name: 'delegate_task',
     description:
-      'Delegiert einen Coding-Task an ein externes LLM. Typischer Ablauf: Claude erstellt einen präzisen Implementierungsplan und übergibt ihn hier als "task"; der Provider (glm = Z.ai GLM-5.2, kimi = Moonshot Kimi k2.7, opencode = opencode CLI) implementiert ihn im workdir. Im "agent"-Modus (Default) bekommt das externe Modell Datei-Tools und schreibt den Code direkt; im "chat"-Modus liefert es nur eine Textantwort. Gibt eine Zusammenfassung + Liste geänderter Dateien zurück — danach immer git diff prüfen.',
+      'Delegiert einen Coding-Task an ein externes LLM. Typischer Ablauf: Claude erstellt einen präzisen, self-contained Implementierungsplan und übergibt ihn hier als "task"; der Provider implementiert ihn im workdir. Provider-Routing (Benchmarks 07/2026): glm = Z.ai GLM-5.2 für repo-weite/mehrstufige Implementierungen, Multi-File-Patches und große Kontexte (Top-Open-Weight auf SWE-bench Pro, 1M Kontext; Default bei Unsicherheit) | kimi = Moonshot Kimi für tool-intensive iterative Kleinarbeit und kniffliges Debugging (MCP Mark Verified über Opus-4.8-Niveau, Thinking immer an) | opencode = opencode CLI, wenn der Task während der Implementierung Shell/Tests/Builds braucht oder Drittmodelle (GPT/Gemini via Zen) gewünscht sind. Im "agent"-Modus (Default) bekommt das externe Modell Datei-Tools und schreibt den Code direkt; im "chat"-Modus liefert es nur eine Textantwort (gut für Zweitmeinung/Review). Gibt eine Zusammenfassung + Liste geänderter Dateien zurück — danach immer git diff prüfen und selbst verifizieren.',
     inputSchema: {
       type: 'object',
       properties: {
