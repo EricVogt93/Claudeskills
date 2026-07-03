@@ -1,0 +1,15 @@
+{
+  "name": "e2e-explorer",
+  "description": "Explorativer E2E-Test-Workflow: Ein Analyst identifiziert Prozesse und korrekte E2E-Pfade aus dem Code, ein Explorer klickt per Playwright real durchs Frontend und findet Fehler, ein Test-Writer generiert parallel dazu Playwright-Specs.",
+  "version": "0.1.0",
+  "author": {
+    "name": "EricVogt93"
+  },
+  "keywords": ["playwright", "e2e", "exploratory-testing", "qa", "agents", "mcp"],
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}

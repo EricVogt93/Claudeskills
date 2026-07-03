@@ -17,6 +17,16 @@
         "name": "EricVogt93"
       },
       "keywords": ["mcp", "delegate", "glm", "zai", "kimi", "moonshot", "opencode", "multi-llm"]
+    },
+    {
+      "name": "e2e-explorer",
+      "source": "./plugins/e2e-explorer",
+      "description": "Explorativer E2E-Workflow: flow-analyst identifiziert Prozesse und E2E-Pfade aus dem Code, danach klickt ui-explorer parallel per Playwright durchs Frontend (Fehler finden) während test-writer Playwright-Specs generiert.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["playwright", "e2e", "exploratory-testing", "qa", "agents", "mcp"]
     }
   ]
 }
