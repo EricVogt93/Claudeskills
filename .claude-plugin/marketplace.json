@@ -1,0 +1,22 @@
+{
+  "name": "claudeskills",
+  "owner": {
+    "name": "EricVogt93"
+  },
+  "metadata": {
+    "description": "Persönlicher Claude-Code-Plugin-Marketplace von EricVogt93",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "llm-delegate",
+      "source": "./plugins/llm-delegate",
+      "description": "Delegiert Coding-Tasks per MCP an externe LLMs: Z.ai GLM (glm-5.2), Moonshot Kimi (kimi-k2.7-code) und opencode. Claude plant, das externe Modell implementiert.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["mcp", "delegate", "glm", "zai", "kimi", "moonshot", "opencode", "multi-llm"]
+    }
+  ]
+}
