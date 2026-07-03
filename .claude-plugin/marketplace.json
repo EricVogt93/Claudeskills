@@ -27,6 +27,16 @@
         "name": "EricVogt93"
       },
       "keywords": ["playwright", "e2e", "exploratory-testing", "qa", "agents", "mcp"]
+    },
+    {
+      "name": "code-refactor",
+      "source": "./plugins/code-refactor",
+      "description": "Drei-Pass-Refactoring-Skill: Standard-Code-Qualität (Komplexität, Nesting, Hardcoding, Abstraktion) → Simplify → Kompression LLM-typisch verboser Muster. Verhaltenserhaltend, testgesichert, mit Vorher/Nachher-Metriken.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["refactoring", "code-quality", "simplify", "verbosity", "clean-code"]
     }
   ]
 }
