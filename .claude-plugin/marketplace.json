@@ -67,6 +67,16 @@
         "name": "EricVogt93"
       },
       "keywords": ["cleanup", "hygiene", "branches", "stash", "hooks", "gitignore"]
+    },
+    {
+      "name": "marathon",
+      "source": "./plugins/marathon",
+      "description": "Tagelange autonome Abarbeitung großer, unkomplizierter Projekte ohne stündliches Bestätigen: Task-Liste als dateibasierter Zustand, Stop-Hook-Schleife bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log statt Rückfragen. Notbremsen: /marathon:stop, STOP-Datei, Iterations-Limit.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["autonomous", "long-running", "loop", "unattended", "hooks", "batch"]
     }
   ]
 }

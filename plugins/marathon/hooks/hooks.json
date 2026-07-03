@@ -1,0 +1,27 @@
+{
+  "description": "Marathon-Modus: Stop-Hook hält Claude am Arbeiten, bis die Task-Liste abgearbeitet ist; SessionStart-Hook nimmt nach Neustart/Kompaktierung den Faden wieder auf",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/marathon-guard.js\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/marathon-resume.js\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
