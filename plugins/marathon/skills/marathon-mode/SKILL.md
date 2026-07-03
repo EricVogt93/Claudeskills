@@ -1,6 +1,8 @@
 ---
 name: marathon-mode
-description: "Tagelange autonome Abarbeitung eines großen, aber unkomplizierten Projekts ohne Rückfragen: Task-Liste als dateibasierter Zustand, batchweise Abarbeitung mit Checkpoint-Commits, Entscheidungs-Log statt Nachfragen, Stop-Hook-Schleife bis alles abgehakt ist. Nutzen, wenn der Nutzer etwas 'einfach laufen lassen' will, tage-/stundenlange Fleißarbeit ansteht (Migrationen, Massen-Refactorings, viele gleichartige Module) oder /marathon:start aufgerufen wird."
+description: "Tagelange autonome Abarbeitung eines großen, aber unkomplizierten Projekts ohne Rückfragen: Task-Liste als dateibasierter Zustand, batchweise Abarbeitung mit Checkpoint-Commits, Entscheidungs-Log statt Nachfragen, Stop-Hook-Schleife bis alles abgehakt ist."
+when_to_use: "Wenn der Nutzer etwas 'einfach laufen lassen' will, tage-/stundenlange Fleißarbeit ansteht (Migrationen, Massen-Refactorings, viele gleichartige Module) oder /marathon:start aufgerufen wird."
+disallowed-tools: AskUserQuestion
 ---
 
 # Marathon-Modus

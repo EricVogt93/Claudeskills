@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Marathon-Fortschritt: erledigte/offene/blockierte Tasks, Iterationen, letzte Log-Einträge"
 ---
 

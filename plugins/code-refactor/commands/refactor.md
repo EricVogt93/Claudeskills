@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Drei-Pass-Refactoring: Code-Qualität (Komplexität, Nesting, Hardcoding, Abstraktion) → Simplify → LLM-Verbosity komprimieren"
 argument-hint: "[Datei/Verzeichnis/Modul] [optional: Fokus, z.B. 'nur Pass 3']"
 ---

@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Multi-LLM-Review: Diff parallel von GLM + Kimi reviewen lassen, Findings verifizieren und dedupliziert berichten"
 argument-hint: "[Scope: Working Tree (default) | main...HEAD | Datei/Verzeichnis]"
 ---

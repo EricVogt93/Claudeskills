@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Claude plant, ein externes LLM implementiert: Task an GLM-5.2 (Z.ai), Kimi k2.7 oder opencode delegieren"
 argument-hint: "[glm|kimi|opencode] <Aufgabenbeschreibung>"
 ---

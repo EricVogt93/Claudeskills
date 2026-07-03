@@ -1,9 +1,16 @@
 {
   "name": "marathon",
   "description": "Tagelange autonome Abarbeitung großer, aber unkomplizierter Projekte ohne stündliches Bestätigen: dateibasierte Task-Liste als Zustand, Stop-Hook-Schleife bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log statt Rückfragen. Inkl. 'Auto-Compact' per Kontext-Watchdog: bei vollem Kontext Handoff-Datei + automatische Session-Rotation (Driver-Skript). Notbremsen: /marathon:stop, STOP-Datei, Iterations-Limit.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "EricVogt93"
   },
-  "keywords": ["autonomous", "long-running", "loop", "unattended", "hooks", "batch"]
+  "keywords": [
+    "autonomous",
+    "long-running",
+    "loop",
+    "unattended",
+    "hooks",
+    "batch"
+  ]
 }

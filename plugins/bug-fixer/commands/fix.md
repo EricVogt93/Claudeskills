@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Bugs aus findings.md (oder Einzelbeschreibung) abarbeiten: pro Bug reproduzieren → lokalisieren → fixen → verifizieren"
 argument-hint: "[Pfad zu findings.md | Bug-Beschreibung] [optional: 'nur blocker/major']"
 ---

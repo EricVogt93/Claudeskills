@@ -1,9 +1,15 @@
 {
   "name": "code-refactor",
   "description": "Systematisches Code-Refactoring in drei Pässen: Standard-Code-Qualität (Komplexität, Nesting, Hardcoding, Abstraktion), Vereinfachung und Kompression LLM-typisch verboser Muster — verhaltenserhaltend und testgesichert.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "EricVogt93"
   },
-  "keywords": ["refactoring", "code-quality", "simplify", "verbosity", "clean-code"]
+  "keywords": [
+    "refactoring",
+    "code-quality",
+    "simplify",
+    "verbosity",
+    "clean-code"
+  ]
 }

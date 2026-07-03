@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Repo aufräumen: Wegwerf-Dateien, tote Branches, Stash — mit Inventar und Bestätigung vor jedem Löschen"
 argument-hint: "[files|branches|stash|all] [optional: --yes für pauschale Freigabe unkritischer Löschungen]"
 ---

@@ -1,15 +1,25 @@
 {
   "name": "llm-delegate",
   "description": "Delegiert Coding-Tasks an externe LLMs (Z.ai GLM-5.2, Moonshot Kimi, opencode) über das offizielle openai-SDK und die Coding-Plan-Endpoints. Claude entscheidet per Skill selbst, wann er delegiert, und routet Task-Typen benchmark-basiert zum passenden Modell. MCP-Server mit Agent-Loop (Datei-Tools) und Chat-Modus.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": {
     "name": "EricVogt93"
   },
-  "keywords": ["mcp", "delegate", "glm", "zai", "kimi", "moonshot", "opencode"],
+  "keywords": [
+    "mcp",
+    "delegate",
+    "glm",
+    "zai",
+    "kimi",
+    "moonshot",
+    "opencode"
+  ],
   "mcpServers": {
     "llm-delegate": {
       "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.js"],
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp/server.js"
+      ],
       "env": {}
     }
   }

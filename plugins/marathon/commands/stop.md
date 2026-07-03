@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Marathon sauber anhalten: aktuellen Task abschließen, Zustand sichern, Zwischenbericht"
 ---
 

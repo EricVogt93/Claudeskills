@@ -12,7 +12,7 @@
       "name": "llm-delegate",
       "source": "./plugins/llm-delegate",
       "description": "Delegiert Coding-Tasks per MCP an externe LLMs: Z.ai GLM (glm-5.2) und Moonshot Kimi über das offizielle openai-SDK und die Coding-Plan-Endpoints, plus opencode CLI. Claude entscheidet per Skill selbst, wann er delegiert, und routet Tasks benchmark-basiert zum passenden Modell.",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "author": {
         "name": "EricVogt93"
       },
@@ -48,7 +48,7 @@
       "name": "code-refactor",
       "source": "./plugins/code-refactor",
       "description": "Drei-Pass-Refactoring-Skill: Standard-Code-Qualität (Komplexität, Nesting, Hardcoding, Abstraktion) → Simplify → Kompression LLM-typisch verboser Muster. Verhaltenserhaltend, testgesichert, mit Vorher/Nachher-Metriken.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "EricVogt93"
       },
@@ -64,7 +64,7 @@
       "name": "review-panel",
       "source": "./plugins/review-panel",
       "description": "Multi-LLM-Code-Review: Diff parallel an GLM und Kimi (via llm-delegate, chat-Modus), Claude verifiziert jedes Finding gegen den Code, dedupliziert und berichtet nur Bestätigtes mit Konfidenz-Markierung.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "EricVogt93"
       },
@@ -81,7 +81,7 @@
       "name": "bug-fixer",
       "source": "./plugins/bug-fixer",
       "description": "Arbeitet Bug-Reports (z.B. findings.md aus e2e-explorer) systematisch ab: pro Bug reproduzieren, Ursache lokalisieren, minimal fixen, per Re-Repro + Tests verifizieren, test.fixme-Specs grün ziehen. Kein Fix ohne Repro.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "EricVogt93"
       },
@@ -97,7 +97,7 @@
       "name": "repo-cleanup",
       "source": "./plugins/repo-cleanup",
       "description": "Repo-Hygiene gegen LLM-Müll: Wegwerf-Dateien, tote Branches und Stash-Missbrauch aufräumen — mit Inventar, Klassifikation und Rettungsankern. Inkl. SessionStart-Hygiene-Report und Stop-Hook, der hinterlassene Wegwerf-Dateien am Turn-Ende anmahnt.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "EricVogt93"
       },
@@ -114,7 +114,7 @@
       "name": "marathon",
       "source": "./plugins/marathon",
       "description": "Tagelange autonome Abarbeitung großer, unkomplizierter Projekte ohne stündliches Bestätigen: Task-Liste als dateibasierter Zustand, Stop-Hook-Schleife bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log. Inkl. 'Auto-Compact': Kontext-Watchdog erzwingt bei vollem Kontext eine Handoff-Datei und rotiert per Driver-Skript in eine frische Session.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "EricVogt93"
       },

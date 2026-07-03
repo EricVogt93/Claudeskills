@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 description: "Marathon starten: Task-Liste generieren, einmalig alles klären, dann tagelang autonom abarbeiten (Stop-Hook-Schleife)"
 argument-hint: "<Projektbeschreibung oder Pfad zu Plan/Task-Datei> [max_iterations]"
 ---
