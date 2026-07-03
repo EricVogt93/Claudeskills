@@ -12,7 +12,7 @@
       "name": "llm-delegate",
       "source": "./plugins/llm-delegate",
       "description": "Delegiert Coding-Tasks per MCP an externe LLMs: Z.ai GLM (glm-5.2) und Moonshot Kimi über das offizielle openai-SDK und die Coding-Plan-Endpoints, plus opencode CLI. Claude entscheidet per Skill selbst, wann er delegiert, und routet Tasks benchmark-basiert zum passenden Modell.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "EricVogt93"
       },
