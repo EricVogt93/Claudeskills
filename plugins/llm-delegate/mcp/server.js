@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 /**
- * llm-delegate MCP server (stdio, dependency-free).
+ * llm-delegate MCP server (stdio).
  *
- * Delegates coding tasks to external LLMs:
- *   - glm      → Z.ai GLM        (OpenAI-compatible, default model glm-5.2)
- *   - kimi     → Moonshot Kimi   (OpenAI-compatible, default model kimi-k2.7-code)
- *   - opencode → opencode CLI    (headless `opencode run`, agentic by itself)
+ * Delegates coding tasks to external LLMs via the providers' official SDK path.
+ * Both Z.ai and Moonshot officially document the OpenAI SDK as the Node client
+ * for their APIs (Z.ai's own TypeScript SDK is not yet published on npm);
+ * defaults point at the Coding-Plan endpoints:
+ *   - glm      → Z.ai GLM      via openai-SDK @ https://api.z.ai/api/coding/paas/v4 (glm-5.2)
+ *   - kimi     → Moonshot Kimi via openai-SDK @ https://api.kimi.com/coding/v1 (kimi-for-coding)
+ *   - opencode → opencode CLI  (headless `opencode run`, agentic by itself)
+ *
+ * The openai dependency is auto-installed into this directory on first start.
  *
  * Modes:
  *   - agent (default for glm/kimi): tool-calling loop — the external LLM gets
@@ -25,8 +30,32 @@
 
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const readline = require('readline');
+
+function log(msg) {
+  process.stderr.write(`[llm-delegate] ${msg}\n`);
+}
+
+// SDK-Bootstrap: openai-SDK bei Bedarf lokal installieren (einmalig nach Plugin-Install).
+function loadOpenAISDK() {
+  try {
+    return require('openai');
+  } catch {
+    log('openai-SDK nicht gefunden — installiere Abhängigkeiten (einmalig) …');
+    const r = spawnSync(
+      process.platform === 'win32' ? 'npm.cmd' : 'npm',
+      ['install', '--omit=dev', '--no-audit', '--no-fund'],
+      { cwd: __dirname, stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' }
+    );
+    if (r.status !== 0) {
+      log('npm install fehlgeschlagen — bitte manuell im Plugin-Verzeichnis mcp/ ausführen.');
+      process.exit(1);
+    }
+    return require('openai');
+  }
+}
+const OpenAI = loadOpenAISDK();
 
 // ---------------------------------------------------------------------------
 // Provider registry
@@ -40,14 +69,16 @@ const PROVIDERS = {
     apiKey: () => process.env.ZAI_API_KEY || '',
     model: () => process.env.ZAI_MODEL || 'glm-5.2',
     keyHint: 'ZAI_API_KEY',
+    altHint: 'Pay-per-Token statt Coding-Plan: ZAI_BASE_URL=https://api.z.ai/api/paas/v4',
   },
   kimi: {
     label: 'Moonshot Kimi',
     kind: 'openai',
-    baseUrl: () => process.env.KIMI_BASE_URL || 'https://api.moonshot.ai/v1',
-    apiKey: () => process.env.MOONSHOT_API_KEY || process.env.KIMI_API_KEY || '',
-    model: () => process.env.KIMI_MODEL || 'kimi-k2.7-code',
-    keyHint: 'MOONSHOT_API_KEY (oder KIMI_API_KEY)',
+    baseUrl: () => process.env.KIMI_BASE_URL || 'https://api.kimi.com/coding/v1',
+    apiKey: () => process.env.KIMI_API_KEY || process.env.MOONSHOT_API_KEY || '',
+    model: () => process.env.KIMI_MODEL || 'kimi-for-coding',
+    keyHint: 'KIMI_API_KEY (Coding-Plan-Key von kimi.com) oder MOONSHOT_API_KEY',
+    altHint: 'Platform-API statt Coding-Plan: KIMI_BASE_URL=https://api.moonshot.ai/v1 + KIMI_MODEL=kimi-k2.7-code',
   },
   opencode: {
     label: 'opencode CLI',
@@ -200,35 +231,45 @@ function runShell(command, cwd, timeoutMs) {
 }
 
 // ---------------------------------------------------------------------------
-// OpenAI-compatible chat completions
+// Chat completions via offizielles openai-SDK (von Z.ai & Moonshot als
+// Node-Client dokumentiert) — inkl. SDK-Retries und Timeout
 // ---------------------------------------------------------------------------
 
-async function chatCompletion(provider, model, messages, tools) {
-  const body = { model, messages, temperature: 0.2 };
-  if (tools && tools.length) body.tools = tools;
+const sdkClients = new Map();
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+function getClient(providerKey, provider) {
+  if (!sdkClients.has(providerKey)) {
+    sdkClients.set(
+      providerKey,
+      new OpenAI({
+        apiKey: provider.apiKey(),
+        baseURL: provider.baseUrl(),
+        timeout: REQUEST_TIMEOUT_MS,
+        maxRetries: 2,
+      })
+    );
+  }
+  return sdkClients.get(providerKey);
+}
+
+async function chatCompletion(providerKey, provider, model, messages, tools) {
+  const req = { model, messages, temperature: 0.2 };
+  if (tools && tools.length) req.tools = tools;
+
   try {
-    const res = await fetch(`${provider.baseUrl().replace(/\/$/, '')}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${provider.apiKey()}`,
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new Error(`API-Fehler ${res.status} von ${provider.label}: ${text.slice(0, 2000)}`);
+    const completion = await getClient(providerKey, provider).chat.completions.create(req);
+    const choice = completion.choices && completion.choices[0];
+    if (!choice || !choice.message) {
+      throw new Error(`Leere Antwort von ${provider.label}: ${JSON.stringify(completion).slice(0, 500)}`);
     }
-    const data = await res.json();
-    const choice = data.choices && data.choices[0];
-    if (!choice) throw new Error(`Leere Antwort von ${provider.label}: ${JSON.stringify(data).slice(0, 500)}`);
     return choice.message;
-  } finally {
-    clearTimeout(timer);
+  } catch (err) {
+    if (err instanceof OpenAI.APIError) {
+      throw new Error(
+        `API-Fehler${err.status ? ` ${err.status}` : ''} von ${provider.label} (${provider.baseUrl()}): ${err.message}`
+      );
+    }
+    throw err;
   }
 }
 
@@ -236,7 +277,7 @@ const AGENT_SYSTEM_PROMPT = `You are an expert software engineer acting as the I
 A planner model (Claude) has produced an implementation plan. Your job is to execute it precisely.
 
 Rules:
-- Use the provided tools (list_files, read_file, write_file${''}) to inspect the repository and write the code.
+- Use the provided tools (list_files, read_file, write_file) to inspect the repository and write the code.
 - Follow the plan. If the plan is ambiguous, make the most reasonable engineering choice and note it.
 - Read existing files before modifying them; match the project's style and conventions.
 - write_file overwrites the whole file — always write complete file contents, never diffs or placeholders like "... rest unchanged".
@@ -254,7 +295,7 @@ async function runAgentLoop(providerKey, provider, model, task, workdir, maxTurn
 
   while (turns < maxTurns) {
     turns++;
-    const msg = await chatCompletion(provider, model, messages, defs);
+    const msg = await chatCompletion(providerKey, provider, model, messages, defs);
     messages.push(msg);
 
     const toolCalls = msg.tool_calls || [];
@@ -303,7 +344,7 @@ async function runAgentLoop(providerKey, provider, model, task, workdir, maxTurn
   ].join('\n');
 }
 
-async function runChat(provider, model, task, contextBlocks) {
+async function runChat(providerKey, provider, model, task, contextBlocks) {
   const messages = [
     {
       role: 'system',
@@ -312,7 +353,7 @@ async function runChat(provider, model, task, contextBlocks) {
     },
     { role: 'user', content: contextBlocks ? `${contextBlocks}\n\n---\n\n${task}` : task },
   ];
-  const msg = await chatCompletion(provider, model, messages, null);
+  const msg = await chatCompletion(providerKey, provider, model, messages, null);
   return `## Antwort von ${provider.label} (${model}, chat-Modus)\n\n${msg.content}`;
 }
 
@@ -361,9 +402,9 @@ function providerStatus() {
     if (p.kind === 'openai') {
       const hasKey = Boolean(p.apiKey());
       lines.push(
-        `- **${key}** (${p.label}): Modell \`${p.model()}\`, Endpoint \`${p.baseUrl()}\` — API-Key: ${
+        `- **${key}** (${p.label}): Modell \`${p.model()}\`, Endpoint \`${p.baseUrl()}\` (openai-SDK) — API-Key: ${
           hasKey ? '✅ gesetzt' : `❌ fehlt (${p.keyHint})`
-        }`
+        }${p.altHint ? `\n  - ${p.altHint}` : ''}`
       );
     } else {
       lines.push(
@@ -410,7 +451,7 @@ async function toolDelegateTask(args) {
   const mode = args.mode || 'agent';
 
   if (mode === 'chat') {
-    return runChat(provider, model, task, contextBlocks);
+    return runChat(providerKey, provider, model, task, contextBlocks);
   }
   const maxTurns = Math.min(parseInt(args.max_turns || MAX_TURNS, 10) || MAX_TURNS, 100);
   const fullTask = contextBlocks ? `${contextBlocks}\n---\n\n${task}` : task;
@@ -474,10 +515,6 @@ const TOOLS = [
 // Minimal MCP stdio transport (newline-delimited JSON-RPC 2.0)
 // ---------------------------------------------------------------------------
 
-function log(msg) {
-  process.stderr.write(`[llm-delegate] ${msg}\n`);
-}
-
 function send(obj) {
   process.stdout.write(JSON.stringify(obj) + '\n');
 }
@@ -498,7 +535,7 @@ async function handle(msg) {
       reply(id, {
         protocolVersion: (params && params.protocolVersion) || '2025-06-18',
         capabilities: { tools: {} },
-        serverInfo: { name: 'llm-delegate', version: '0.1.0' },
+        serverInfo: { name: 'llm-delegate', version: '0.2.0' },
       });
       return;
 

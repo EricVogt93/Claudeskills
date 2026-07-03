@@ -1,0 +1,10 @@
+{
+  "name": "llm-delegate-mcp",
+  "version": "0.2.0",
+  "private": true,
+  "description": "MCP server for llm-delegate: delegates coding tasks via the official openai SDK to the Z.ai and Kimi coding-plan endpoints, plus opencode CLI",
+  "main": "server.js",
+  "dependencies": {
+    "openai": "^6"
+  }
+}

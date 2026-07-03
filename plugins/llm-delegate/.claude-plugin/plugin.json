@@ -1,7 +1,7 @@
 {
   "name": "llm-delegate",
-  "description": "Delegiert Coding-Tasks an externe LLMs (Z.ai GLM-5.2, Moonshot Kimi k2.7, opencode). Claude plant — das externe Modell implementiert. Enthält einen dependency-freien MCP-Server mit Agent-Loop (Datei-Tools) und Chat-Modus.",
-  "version": "0.1.0",
+  "description": "Delegiert Coding-Tasks an externe LLMs (Z.ai GLM-5.2, Moonshot Kimi, opencode) über das offizielle openai-SDK und die Coding-Plan-Endpoints beider Anbieter. Claude plant — das externe Modell implementiert. MCP-Server mit Agent-Loop (Datei-Tools) und Chat-Modus.",
+  "version": "0.2.0",
   "author": {
     "name": "EricVogt93"
   },

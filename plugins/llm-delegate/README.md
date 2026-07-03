@@ -6,13 +6,17 @@ Claude-Code-Plugin inkl. MCP-Server, das Coding-Tasks an **externe LLMs** delegi
 
 ## Provider
 
-| Provider   | Backend                     | Default-Modell   | Auth                                  |
-|------------|-----------------------------|------------------|---------------------------------------|
-| `glm`      | Z.ai (OpenAI-kompatibel)    | `glm-5.2`        | `ZAI_API_KEY`                          |
-| `kimi`     | Moonshot (OpenAI-kompatibel)| `kimi-k2.7-code` | `MOONSHOT_API_KEY` (oder `KIMI_API_KEY`) |
-| `opencode` | opencode CLI (headless)     | opencode-Config  | opencode selbst (`opencode auth login` / Zen) |
+Die API-Provider werden über das **offizielle `openai`-SDK** angesprochen — das ist der von Z.ai und Moonshot offiziell dokumentierte Node-Client für ihre APIs (Z.ais eigenes TypeScript-SDK, `z-ai-sdk-typescript`, ist bislang nicht auf npm veröffentlicht; sobald es erscheint, ist der Client-Layer in `mcp/server.js` an einer Stelle austauschbar). Die Defaults zeigen auf die **Coding-Plan-Endpoints** beider Anbieter, sodass die Delegation über die Flatrate-Abos läuft statt Pay-per-Token:
 
-Der Z.ai-Default-Endpoint ist der **Coding-Plan-Endpoint** `https://api.z.ai/api/coding/paas/v4`. Wer die normale Pay-per-Token-API nutzt, setzt `ZAI_BASE_URL=https://api.z.ai/api/paas/v4`.
+| Provider   | Default-Endpoint (Coding-Plan)        | Default-Modell    | Auth |
+|------------|----------------------------------------|-------------------|------|
+| `glm`      | `https://api.z.ai/api/coding/paas/v4`  | `glm-5.2`         | `ZAI_API_KEY` |
+| `kimi`     | `https://api.kimi.com/coding/v1`       | `kimi-for-coding` | `KIMI_API_KEY` (Coding-Plan-Key von kimi.com) oder `MOONSHOT_API_KEY` |
+| `opencode` | opencode CLI (headless)                | opencode-Config   | opencode selbst (`opencode auth login` / Zen) |
+
+Umschalten auf die normalen Pay-per-Token-APIs:
+- **glm**: `ZAI_BASE_URL=https://api.z.ai/api/paas/v4`
+- **kimi**: `KIMI_BASE_URL=https://api.moonshot.ai/v1` + `KIMI_MODEL=kimi-k2.7-code`
 
 ## Installation
 
@@ -27,11 +31,11 @@ Der Z.ai-Default-Endpoint ist der **Coding-Plan-Endpoint** `https://api.z.ai/api
 Dann API-Keys in der Shell (oder in `~/.claude/settings.json` → `env`) setzen:
 
 ```bash
-export ZAI_API_KEY="..."        # https://z.ai/model-api
-export MOONSHOT_API_KEY="..."   # https://platform.moonshot.ai
+export ZAI_API_KEY="..."    # Coding-Plan: https://z.ai (Abo) / API: https://z.ai/model-api
+export KIMI_API_KEY="..."   # Coding-Plan: https://kimi.com (Abo) / API: https://platform.moonshot.ai
 ```
 
-Der MCP-Server ist **dependency-frei** (reines Node.js ≥ 18) — kein `npm install` nötig.
+Benötigt Node.js ≥ 18. Die einzige Abhängigkeit (`openai`-SDK) installiert der Server **beim ersten Start automatisch** in sein Plugin-Verzeichnis — kein manueller Schritt nötig. Das SDK bringt Retries (2×), Timeouts und saubere API-Fehler mit.
 
 ## Nutzung
 
@@ -73,11 +77,11 @@ Jedes LLM/Agent-Setup, das MCP spricht, kann den Server nutzen. Tools:
 | Variable | Default | Beschreibung |
 |---|---|---|
 | `ZAI_API_KEY` | – | API-Key für Z.ai |
-| `ZAI_BASE_URL` | `https://api.z.ai/api/coding/paas/v4` | OpenAI-kompatibler Endpoint |
+| `ZAI_BASE_URL` | `https://api.z.ai/api/coding/paas/v4` | Z.ai-Endpoint (Default: Coding-Plan) |
 | `ZAI_MODEL` | `glm-5.2` | GLM-Modell |
-| `MOONSHOT_API_KEY` / `KIMI_API_KEY` | – | API-Key für Moonshot |
-| `KIMI_BASE_URL` | `https://api.moonshot.ai/v1` | OpenAI-kompatibler Endpoint |
-| `KIMI_MODEL` | `kimi-k2.7-code` | Kimi-Modell |
+| `KIMI_API_KEY` / `MOONSHOT_API_KEY` | – | API-Key für Kimi (Coding-Plan-Key von kimi.com bzw. Platform-Key) |
+| `KIMI_BASE_URL` | `https://api.kimi.com/coding/v1` | Kimi-Endpoint (Default: Coding-Plan) |
+| `KIMI_MODEL` | `kimi-for-coding` | Kimi-Modell (Coding-Plan verlangt genau diese Modell-ID) |
 | `OPENCODE_BIN` | `opencode` | Pfad zur opencode-Binary |
 | `OPENCODE_MODEL` | (opencode-Config) | z. B. `opencode/gpt-5.5` (Zen) oder `zai/glm-5.2` |
 | `OPENCODE_TIMEOUT_S` | `900` | Timeout für opencode-Läufe |
