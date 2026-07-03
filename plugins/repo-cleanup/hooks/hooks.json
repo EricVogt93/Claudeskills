@@ -1,0 +1,27 @@
+{
+  "description": "Repo-Hygiene: SessionStart-Report (Wegwerf-Dateien, tote Branches, Stash) + Stop-Guard gegen hinterlassene Wegwerf-Dateien",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/hygiene-report.js\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/junk-guard.js\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

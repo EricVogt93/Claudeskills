@@ -1,0 +1,15 @@
+{
+  "name": "bug-fixer",
+  "description": "Schließt den Kreislauf nach der Fehlersuche: nimmt Bug-Reports (z.B. findings.md aus e2e-explorer) oder Einzelbeschreibungen, reproduziert jeden Bug, lokalisiert die Ursache, fixt minimal-invasiv (optional delegiert via llm-delegate), verifiziert per Re-Repro + Tests und zieht test.fixme-Specs grün.",
+  "version": "0.1.0",
+  "author": {
+    "name": "EricVogt93"
+  },
+  "keywords": ["bugfix", "debugging", "qa", "e2e", "verification"],
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}

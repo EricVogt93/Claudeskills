@@ -1,0 +1,9 @@
+{
+  "name": "review-panel",
+  "description": "Multi-LLM-Code-Review: Derselbe Diff geht parallel an GLM und Kimi (via llm-delegate, chat-Modus), Claude verifiziert jedes Finding gegen den Code, dedupliziert und behält nur Bestätigtes. Von beiden unabhängig Gefundenes gilt als hoch-konfident.",
+  "version": "0.1.0",
+  "author": {
+    "name": "EricVogt93"
+  },
+  "keywords": ["code-review", "multi-llm", "second-opinion", "glm", "kimi", "quality"]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "repo-cleanup",
+  "description": "Repo-Hygiene gegen LLM-Müll: räumt Wegwerf-Dateien, tote Branches und den als Datenbank missbrauchten Stash auf — sicher, mit Inventar und Bestätigung vor jedem Löschen. Inkl. Hooks: SessionStart-Hygiene-Report und Stop-Guard, der hinterlassene Wegwerf-Dateien am Turn-Ende anmahnt.",
+  "version": "0.1.0",
+  "author": {
+    "name": "EricVogt93"
+  },
+  "keywords": ["cleanup", "hygiene", "branches", "stash", "hooks", "gitignore"]
+}

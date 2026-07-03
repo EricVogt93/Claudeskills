@@ -37,6 +37,36 @@
         "name": "EricVogt93"
       },
       "keywords": ["refactoring", "code-quality", "simplify", "verbosity", "clean-code"]
+    },
+    {
+      "name": "review-panel",
+      "source": "./plugins/review-panel",
+      "description": "Multi-LLM-Code-Review: Diff parallel an GLM und Kimi (via llm-delegate, chat-Modus), Claude verifiziert jedes Finding gegen den Code, dedupliziert und berichtet nur Bestätigtes mit Konfidenz-Markierung.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["code-review", "multi-llm", "second-opinion", "glm", "kimi", "quality"]
+    },
+    {
+      "name": "bug-fixer",
+      "source": "./plugins/bug-fixer",
+      "description": "Arbeitet Bug-Reports (z.B. findings.md aus e2e-explorer) systematisch ab: pro Bug reproduzieren, Ursache lokalisieren, minimal fixen, per Re-Repro + Tests verifizieren, test.fixme-Specs grün ziehen. Kein Fix ohne Repro.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["bugfix", "debugging", "qa", "e2e", "verification"]
+    },
+    {
+      "name": "repo-cleanup",
+      "source": "./plugins/repo-cleanup",
+      "description": "Repo-Hygiene gegen LLM-Müll: Wegwerf-Dateien, tote Branches und Stash-Missbrauch aufräumen — mit Inventar, Klassifikation und Rettungsankern. Inkl. SessionStart-Hygiene-Report und Stop-Hook, der hinterlassene Wegwerf-Dateien am Turn-Ende anmahnt.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EricVogt93"
+      },
+      "keywords": ["cleanup", "hygiene", "branches", "stash", "hooks", "gitignore"]
     }
   ]
 }
