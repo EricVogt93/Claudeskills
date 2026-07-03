@@ -17,5 +17,6 @@ Persönlicher Claude-Code-Plugin-Marketplace.
 | [`bug-fixer`](plugins/bug-fixer/) | Arbeitet Bug-Reports (z. B. findings.md aus e2e-explorer) ab: pro Bug **reproduzieren → lokalisieren → minimal fixen → verifizieren**, `test.fixme`-Specs grün ziehen. Kein Fix ohne Repro. |
 | [`repo-cleanup`](plugins/repo-cleanup/) | Repo-Hygiene gegen LLM-Müll: Wegwerf-Dateien, tote Branches, Stash-Missbrauch — mit Inventar, Bestätigung und Rettungsankern. Inkl. **Hooks**: SessionStart-Hygiene-Report + Stop-Guard gegen hinterlassene Wegwerf-Dateien. |
 | [`marathon`](plugins/marathon/) | Giga-Projekte **tagelang autonom** abarbeiten: Task-Liste als dateibasierter Zustand, **Stop-Hook-Schleife** bis alles abgehakt ist, Checkpoint-Commits, Entscheidungs-Log statt Rückfragen. Notbremsen: `/marathon:stop`, STOP-Datei, Iterations-Limit. |
+| [`rigor`](plugins/rigor/) | **Frontier-Arbeitsdisziplin als Skill**: Beweis vor Behauptung, Fakten nachschlagen statt erinnern, Denkaufwand-Triage, Zustand in Dateien, Autonomie-Kalibrierung, ehrliches Berichten. Plus `/rigor:check` als Selbst-Audit. Wirkt auch auf delegierte Implementierer (llm-delegate). |
 
 **Pipeline:** `e2e-explorer` findet → `bug-fixer` fixt (delegierbar via `llm-delegate`) → `review-panel` reviewt → `code-refactor` räumt den Code auf → `repo-cleanup` räumt das Repo auf.
