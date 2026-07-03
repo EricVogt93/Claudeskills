@@ -33,6 +33,7 @@ Beim Start alle Entscheidungen einsammeln, die später Rückfragen erzeugen wür
 - **Kein Scope-Creep**: Entdeckte Extra-Arbeit wird als neuer Task ans Ende der Liste geschrieben (mit Herkunft), nicht sofort erledigt — außer sie blockiert den aktuellen Task.
 - **Alle ~20 Tasks**: Mini-Review — Gesamtsuite laufen lassen, Log auf Muster prüfen (häufen sich Blocker gleicher Art → Ursache als eigenen Task einplanen).
 - **Kontext-Disziplin**: Nichts Wichtiges nur im Chat lassen. Nach Kompaktierung/Neustart müssen `tasks.md` + `log.md` allein reichen (der SessionStart-Hook erinnert daran).
+- **Kontext-Rotation**: Meldet sich der Kontext-Watchdog (🔄), KEINEN neuen Task beginnen — sofort `.marathon/handoff.md` schreiben (Stand, halbfertige Arbeit, Session-Erkenntnisse, Umgebungszustand), committen, Turn beenden. Die frische Session liest die Übergabe und macht nahtlos weiter. Die Übergabe muss so vollständig sein, dass ein Claude ohne jeden Chatverlauf sofort produktiv ist.
 
 ## Ende
 

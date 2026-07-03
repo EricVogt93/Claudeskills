@@ -34,6 +34,41 @@
 | alle Checkboxen abgehakt | Hook stoppt automatisch |
 | Escape / Session schließen | sofortiger Halt; `/marathon:start` setzt später auf `tasks.md` wieder auf |
 
+## „Auto-Compact": Kontext-Rotation statt vollem Kontext
+
+Ein Plugin kann das native `/compact` nicht auslösen — also macht marathon etwas Besseres: **verlustfreie Kontext-Rotation**. Da der gesamte Arbeitszustand ohnehin in Dateien lebt, ist eine frische Session besser als jede Kompaktierung (die immer lossy ist).
+
+```
+Transkript ≥ Limit (Default 3 MB)
+   │  Stop-Hook misst bei jedem Turn-Ende die Transkriptgröße
+   ▼
+Watchdog-Block: „Keinen neuen Task! Schreibe .marathon/handoff.md“
+   │  (Stand, halbfertige Arbeit, Erkenntnisse, Umgebungszustand)
+   ▼
+RESTART-Flag gesetzt → nächstes Turn-Ende darf durch → Session endet
+   │
+   ▼
+Frische Session (Driver startet sie automatisch; interaktiv: /clear)
+   │  SessionStart-Hook: räumt Flag weg, „lies ZUERST handoff.md“
+   ▼
+Weiter bei Task N+1 — mit leerem Kontext und vollem Wissen
+```
+
+- Limit einstellbar über `"max_transcript_mb"` in `.marathon/state.json` (Transkript-Bytes sind ein grober Proxy für Kontext — bei Bedarf kalibrieren: zu früh rotiert kostet nur einen Neustart, zu spät riskiert einen vollgelaufenen Kontext).
+- Das native Auto-Compact von Claude Code bleibt als zweites Netz einfach aktiv.
+
+### Driver-Skript für echte Mehrtagesläufe (headless)
+
+`scripts/marathon-run.sh` hält den Marathon über beliebig viele Session-Rotationen am Laufen:
+
+```bash
+bash <pfad-zum-plugin>/scripts/marathon-run.sh /pfad/zum/projekt
+# Flags anpassen (Default: --permission-mode acceptEdits):
+MARATHON_CLAUDE_ARGS="--dangerously-skip-permissions" bash .../marathon-run.sh .  # nur im Container!
+```
+
+Innerhalb einer Session hält der Stop-Hook die Schleife; wird rotiert, startet das Skript die nächste frische `claude -p`-Session. Es endet erst bei fertig/`STOP`/inaktiv und bricht nach 5 fehlgeschlagenen Sessions in Folge ab (mit Backoff gegen API-Limit-Serien). In `tmux`/`screen` oder per `nohup` starten, Rechner wach lassen — oder gleich eine Remote-/Web-Session nutzen.
+
 ## Wichtig: Permission-Prompts vorher ausschalten
 
 Der Hook verhindert das *Anhalten* — aber ein Permission-Prompt mitten in der Nacht blockiert trotzdem. Vor einem Mehrtageslauf eine der Optionen:

@@ -20,6 +20,13 @@ try {
 }
 if (!state.active) process.exit(0);
 
+// Kontext-Rotation abschließen: RESTART-Flag wegräumen, Handoff erwähnen
+const dir = path.join(cwd, '.marathon');
+try {
+  fs.unlinkSync(path.join(dir, 'RESTART'));
+} catch {}
+const hasHandoff = fs.existsSync(path.join(dir, 'handoff.md'));
+
 const taskFile = state.task_file || '.marathon/tasks.md';
 let progress = '';
 try {
@@ -35,8 +42,10 @@ console.log(
       hookEventName: 'SessionStart',
       additionalContext:
         `🏃 Es läuft ein Marathon (Plugin marathon, Iteration ${state.iterations || 0}).${progress} ` +
-        `Der komplette Zustand steht in ${taskFile} und .marathon/log.md — lies beide und setze OHNE Rückfrage ` +
-        `mit dem obersten offenen Task fort, sofern der Nutzer nicht gerade etwas anderes verlangt. ` +
+        (hasHandoff
+          ? `Es gibt eine Übergabe der vorherigen Session — lies ZUERST .marathon/handoff.md, dann ${taskFile} und .marathon/log.md. `
+          : `Der komplette Zustand steht in ${taskFile} und .marathon/log.md — lies beide. `) +
+        `Setze OHNE Rückfrage mit dem obersten offenen Task fort, sofern der Nutzer nicht gerade etwas anderes verlangt. ` +
         `Regeln: Task abarbeiten → verifizieren → abhaken → Checkpoint-Commit → Log aktualisieren.`,
     },
   })

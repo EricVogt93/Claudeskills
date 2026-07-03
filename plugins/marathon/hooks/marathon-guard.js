@@ -36,6 +36,13 @@ if (fs.existsSync(path.join(dir, 'STOP'))) {
   process.exit(0);
 }
 
+// Kontext-Rotation Teil 2: Handoff wurde geschrieben (RESTART-Flag existiert)
+// → Session darf enden. Der Driver (marathon-run.sh) bzw. der Nutzer (/clear)
+// startet frisch; der SessionStart-Hook räumt das Flag weg.
+if (fs.existsSync(path.join(dir, 'RESTART'))) {
+  process.exit(0);
+}
+
 // Notbremse 2: Iterations-Limit
 const max = Number(state.max_iterations) || 1000;
 state.iterations = (Number(state.iterations) || 0) + 1;
@@ -65,6 +72,35 @@ if (open === 0 && done !== null && done > 0) {
 }
 
 save();
+
+// Kontext-Watchdog Teil 1 ("Auto-Compact"): Das Transkript wächst mit dem
+// Kontext. Nähert es sich dem Limit, wird statt eines neuen Tasks eine
+// Übergabe-Datei erzwungen und die Session zur Rotation freigegeben.
+const limitMb = Number(state.max_transcript_mb) || 3;
+let sizeMb = 0;
+try {
+  sizeMb = fs.statSync(input.transcript_path).size / 1048576;
+} catch {}
+if (sizeMb >= limitMb) {
+  try {
+    fs.writeFileSync(path.join(dir, 'RESTART'), new Date().toISOString() + '\n');
+  } catch {}
+  console.log(
+    JSON.stringify({
+      decision: 'block',
+      reason:
+        `🔄 Kontext-Watchdog: Das Sitzungstranskript ist ${sizeMb.toFixed(1)} MB (Limit ${limitMb} MB) — der Kontext ist bald voll. ` +
+        `Beginne KEINEN neuen Task. Schreibe stattdessen JETZT die Übergabe nach .marathon/handoff.md (überschreiben):\n` +
+        `- Zuletzt erledigter Task + nächster offener Task\n` +
+        `- Halbfertige Arbeit: Dateien, Stand, was noch fehlt\n` +
+        `- Erkenntnisse/Fallstricke dieser Session, die NICHT schon in tasks.md/log.md stehen (Muster, Projekt-Eigenheiten, Workarounds)\n` +
+        `- Offene Besonderheiten der Umgebung (laufende Server, geänderte Configs)\n` +
+        `Committe handoff.md als Checkpoint und beende dann den Turn. Eine frische Session übernimmt: ` +
+        `das Driver-Skript (scripts/marathon-run.sh) startet sie automatisch; interaktiv genügt /clear — der SessionStart-Hook lädt die Übergabe.`,
+    })
+  );
+  process.exit(0);
+}
 
 const progress = open !== null ? `, offen: ${open}, erledigt: ${done}` : '';
 console.log(
